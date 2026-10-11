@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ML in 30 Days: Study Plan</title>
+<style>
+:root{--bg:#faf9f6;--card:#fff;--ink:#1d1d1b;--mute:#6b6a65;--line:#e5e3dc;--acc:#2f6fed;--acc2:#e8efff;--ok:#1f9d55;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--card:#222220;--ink:#efeee9;--mute:#9b9a93;--line:#34332f;--acc:#6b9bff;--acc2:#1f2a44;--ok:#4cc57f}}
+:root[data-theme="dark"]{--bg:#171716;--card:#222220;--ink:#efeee9;--mute:#9b9a93;--line:#34332f;--acc:#6b9bff;--acc2:#1f2a44;--ok:#4cc57f}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:26px;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 18px;font-size:14px}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.stat{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin:6px 0 16px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.tab{flex:1 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;font:inherit;font-size:14px;text-align:left;min-width:120px}
+.tab small{display:block;color:var(--mute);font-size:12px}
+.tab.on{border-color:var(--acc);background:var(--acc2)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.goal{margin:0 0 4px;font-weight:600}
+.res{margin:0 0 12px;font-size:13px;color:var(--mute)}
+.day{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.day input{margin-top:5px;width:18px;height:18px;accent-color:var(--ok);flex:none}
+.day b{font-size:12px;color:var(--acc);text-transform:uppercase;letter-spacing:.04em;display:block}
+.day.done span{color:var(--mute);text-decoration:line-through}
+.day em{display:block;font-style:normal;font-size:13px;color:var(--mute)}
+.mile{background:var(--acc2);border-radius:10px;padding:10px 12px;margin-top:12px;font-size:14px}
+.note{font-size:13px;color:var(--mute);margin-top:16px}
+.det{margin-top:6px;font-size:13px;color:var(--mute)}.det p{margin:0 0 4px}.det ul{margin:0;padding-left:18px}.det a{color:var(--acc)}.det strong{color:var(--ink);font-weight:600}
+button.r{background:none;border:1px solid var(--line);color:var(--mute);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ML in 30 Days</h1>
+  <p class="sub">Python-first, code-heavy plan for a working developer. About 1.5–2 hrs on weekdays, a bit more on weekends.</p>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="stat"><span id="cnt">0 / 28 days done</span><span id="pct">0%</span></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="panel" id="panel"></div>
+  <p class="note">Days 29–30 are buffer: catch up on missed days, then polish your capstone README. Progress saves in this browser.</p>
+  <button class="r" id="reset">Reset progress</button>
+</div>
+<script>
+const W=[
+{t:"Week 1",n:"Tools & foundations",g:"Get fluent with the Python data stack and the math you actually need.",r:"3Blue1Brown (Essence of Linear Algebra), StatQuest, Python Data Science Handbook",m:"Milestone: a linear regression you wrote from scratch, plus a scikit-learn baseline.",d:[
+["Environment + NumPy","Set up venv + Jupyter. Vectors, matrices, broadcasting."],
+["Pandas","Load a CSV; clean, filter, groupby, merge."],
+["Visualize","EDA on one dataset with Matplotlib/Seaborn."],
+["Linear algebra & calculus","Dot products, matrix multiply, derivatives, gradients."],
+["Probability & stats","Distributions, Bayes, bias vs variance."],
+["Linear regression from scratch","NumPy + gradient descent, no sklearn."],
+["Mini project","House-price regression in scikit-learn with train/test split."]]},
+{t:"Week 2",n:"Classical ML",g:"Learn the models that still win on tabular data, and how to evaluate them honestly.",r:"Andrew Ng's ML Specialization, scikit-learn user guide, Kaggle Learn",m:"Milestone: an end-to-end Kaggle tabular notebook with proper cross-validation.",d:[
+["Logistic regression & metrics","Precision, recall, F1, ROC-AUC, confusion matrix."],
+["Generalization","Cross-validation, overfitting, L1/L2 regularization."],
+["Trees & random forests","Bagging, feature importance, tuning depth."],
+["Gradient boosting","XGBoost or LightGBM; compare with random forest."],
+["Feature engineering","Pipelines, encoding, missing values, leakage traps."],
+["Unsupervised","k-means, PCA, when each is useful."],
+["Mini project","Kaggle Titanic or Spaceship Titanic, end to end + write-up."]]},
+{t:"Week 3",n:"Neural networks & PyTorch",g:"Understand backprop, then train real networks.",r:"Karpathy's Neural Networks: Zero to Hero, fast.ai Practical Deep Learning, PyTorch tutorials",m:"Milestone: a fine-tuned image classifier with tracked train/val curves.",d:[
+["Backprop intuition","Watch Karpathy's micrograd; follow along in code."],
+["PyTorch basics","Tensors, autograd, nn.Module."],
+["MLP on MNIST","Write the full training loop yourself."],
+["Training tricks","Optimizers, learning rate, dropout, batch norm."],
+["CNNs","Convolutions; train on CIFAR-10."],
+["Transfer learning","Fine-tune a pretrained ResNet."],
+["Mini project","Classifier on your own small image set; plot loss curves."]]},
+{t:"Week 4",n:"Transformers, LLMs & capstone",g:"Connect ML to the systems you already build: serve a model behind an API.",r:"The Illustrated Transformer, Karpathy's Let's build GPT, Hugging Face course",m:"Milestone: a deployed, documented ML service on GitHub.",d:[
+["Attention & transformers","Read The Illustrated Transformer; code a self-attention head."],
+["Hugging Face","Tokenizers, pipelines, run pretrained models."],
+["Fine-tune a small model","DistilBERT for text classification."],
+["Embeddings & retrieval","Semantic search; the basics behind RAG."],
+["Capstone: build & serve","Wrap a model in FastAPI; validate inputs; measure latency."],
+["Capstone: ship it","Dockerize, add eval metrics, logging, a clear README."],
+["Review","Fill gaps, publish to GitHub, plan your next 3 months."]]}
+];
+const SRC={np:["NumPy: absolute beginners guide","https://numpy.org/doc/stable/user/absolute_beginners.html"],pdh:["Python Data Science Handbook","https://jakevdp.github.io/PythonDataScienceHandbook/"],pd:["10 minutes to pandas","https://pandas.pydata.org/docs/user_guide/10min.html"],mpl:["Matplotlib tutorials","https://matplotlib.org/stable/tutorials/index.html"],sbn:["Seaborn tutorial","https://seaborn.pydata.org/tutorial.html"],kg:["Kaggle Learn","https://www.kaggle.com/learn"],b3:["3Blue1Brown","https://www.3blue1brown.com/"],mml:["Mathematics for Machine Learning (free book)","https://mml-book.github.io/"],sq:["StatQuest","https://statquest.org/"],isl:["Intro to Statistical Learning (free book)","https://www.statlearning.com/"],ng:["Andrew Ng's ML Specialization","https://www.coursera.org/specializations/machine-learning-introduction"],d2l:["Dive into Deep Learning (free book)","https://d2l.ai/"],sk:["scikit-learn user guide","https://scikit-learn.org/stable/user_guide.html"],xg:["XGBoost docs","https://xgboost.readthedocs.io/"],ak:["Karpathy: Zero to Hero","https://karpathy.ai/zero-to-hero.html"],pt:["PyTorch tutorials","https://pytorch.org/tutorials/"],cs:["Stanford CS231n notes","https://cs231n.github.io/"],fa:["fast.ai Practical Deep Learning","https://course.fast.ai/"],jt:["The Illustrated Transformer","https://jalammar.github.io/illustrated-transformer/"],hf:["Hugging Face Learn","https://huggingface.co/learn"],sb:["Sentence-Transformers docs","https://www.sbert.net/"],fp:["FastAPI tutorial","https://fastapi.tiangolo.com/tutorial/"],dk:["Docker: get started","https://docs.docker.com/get-started/"]};
+const DET=[
+["venv/conda, Jupyter or VS Code notebooks, ndarray, dtypes, indexing and slicing, reshape, vectorization vs loops, broadcasting, random seeds",["np|read fully","pdh|Ch 2, NumPy"]],
+["Series and DataFrame, read_csv, loc/iloc, boolean filtering, missing values, groupby, merge/join, apply, dtypes",["pd|read fully","pdh|Ch 3, Pandas"]],
+["Histograms, scatter and box plots, correlation heatmap, outliers, distributions, an EDA checklist",["mpl|quick start","sbn|intro and distributions pages","kg|Data Visualization course"]],
+["Vectors, dot product, matrix multiply, transpose, inverse, norms, derivatives, partial derivatives, gradient, chain rule",["b3|Essence of Linear Algebra (ch 1-4, 7, 9)","b3|Essence of Calculus (ch 1-4)","mml|Ch 2 and Ch 5, skim"]],
+["Mean, variance, normal/Bernoulli/binomial, conditional probability, Bayes theorem, maximum likelihood, bias-variance tradeoff",["sq|Statistics Fundamentals playlist","mml|Ch 6","isl|Ch 2, bias-variance"]],
+["Cost function (MSE), gradient descent, learning rate, normal equation, feature scaling, vectorized implementation",["ng|Course 1, weeks 1-2","sq|Gradient Descent video","d2l|Ch 3, linear regression"]],
+["Train/test split, LinearRegression, R-squared, RMSE, residual plots, baseline vs model; try the California housing dataset",["sk|Linear Models and Model Evaluation","kg|Intro to Machine Learning"]],
+["Sigmoid, log loss, decision boundary, confusion matrix, precision/recall/F1, ROC-AUC, class imbalance, thresholds",["ng|Course 1, week 3","sq|Logistic Regression, ROC and AUC videos","sk|Metrics and scoring"]],
+["Overfitting vs underfitting, validation set, k-fold CV, learning curves, Ridge/Lasso, GridSearchCV",["isl|Ch 5-6","sk|Cross-validation and Hyperparameter tuning","ng|Course 2, week 3 (advice for applying ML)"]],
+["Entropy and Gini, splits, pruning and max_depth, bagging, random forests, OOB score, feature importance",["sq|Decision Trees and Random Forests videos","sk|Decision Trees and Ensemble methods","isl|Ch 8"]],
+["AdaBoost vs gradient boosting, learning rate and n_estimators, early stopping, XGBoost/LightGBM parameters, SHAP intro",["sq|Gradient Boost video series","xg|Tutorials","kg|Intermediate Machine Learning"]],
+["One-hot, ordinal and target encoding, scaling, imputation, ColumnTransformer, Pipeline, data leakage, feature selection",["kg|Feature Engineering course","sk|Preprocessing and Pipelines"]],
+["k-means, elbow and silhouette, hierarchical clustering, PCA, explained variance, t-SNE/UMAP for visualization",["sq|k-means and PCA videos","sk|Clustering and Decomposition","pdh|Ch 5"]],
+["Full workflow: EDA, pipeline, CV, boosted model, error analysis, short write-up pushed to GitHub",["kg|Titanic competition and Intermediate ML course"]],
+["Neurons, activations, loss, forward and backward pass, computational graph, chain rule, manual gradients",["ak|micrograd video (code along)","b3|Neural Networks series","ng|Course 2, weeks 1-2"]],
+["Tensors, devices (CPU/GPU), autograd and requires_grad, nn.Module, Dataset and DataLoader",["pt|Learn the Basics series","d2l|Preliminaries chapter"]],
+["Training loop (forward, loss, backward, step, zero_grad), eval mode, accuracy, batching",["pt|Quickstart","d2l|Ch 5, multilayer perceptrons"]],
+["SGD vs Adam, learning rate schedules, weight init, batch norm, dropout, weight decay, early stopping, vanishing gradients",["ak|makemore part 3","cs|Training neural networks notes","d2l|Optimization algorithms chapter"]],
+["Convolution, kernels, stride and padding, pooling, receptive field, simple CNN architecture, data augmentation",["cs|Convolutional Networks notes","d2l|Ch 7","pt|Training a classifier (CIFAR-10)"]],
+["Pretrained ResNet, freezing layers, fine-tuning learning rates, torchvision transforms, normalization",["pt|Transfer learning tutorial","fa|Lessons 1-2"]],
+["Own image dataset (about 100 per class), augmentation, train/val split, loss curves, confusion matrix, saving and loading weights",["fa|Lesson 1 workflow","pt|Saving and loading models"]],
+["Tokens, embeddings, positional encoding, self-attention (query, key, value), multi-head attention, encoder vs decoder",["jt|read fully","ak|Let's build GPT","b3|Deep Learning ch 5-6 (transformers)"]],
+["Tokenizers (BPE), pipelines, AutoModel and AutoTokenizer, the model hub, inference on CPU/GPU, generation parameters",["hf|LLM Course, chapters 1-2"]],
+["Datasets library, tokenizing data, Trainer API, DistilBERT, evaluation metrics, overfitting on small data",["hf|LLM Course, chapter 3"]],
+["Sentence embeddings, cosine similarity, vector search, chunking, basic RAG pipeline, judging retrieval quality",["sb|Semantic Search guide","hf|LLM Course, semantic search chapter"]],
+["Pick a tabular or text problem, save the model (joblib/torch), FastAPI endpoint, Pydantic validation, load model at startup, measure latency",["fp|Tutorial, first steps to request bodies","sk|Model persistence"]],
+["Dockerfile, pinned requirements, tests, logging, an evaluation report, README with results, simple deploy",["dk|Get started","fp|Deployment section"]],
+["Redo your weakest day, write a what-I-learned post, clean the repo, choose a next step (MLOps, ML system design, deeper LLMs)",["d2l|chapters for your weak spots","ak|remaining Zero to Hero videos"]]
+];
+function det(n){const d=DET[n-1];if(!d)return"";return `<div class="det"><p><strong>Cover:</strong> ${d[0]}.</p><ul>${d[1].map(s=>{const[k,h]=s.split("|");const r=SRC[k];return `<li><a href="${r[1]}" target="_blank" rel="noopener">${r[0]}</a>${h?": "+h:""}</li>`}).join("")}</ul></div>`}
+const K="ml30-progress";let done={},cur=0;
+try{done=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){done={}}
+function save(){try{localStorage.setItem(K,JSON.stringify(done))}catch(e){}}
+const id=(w,i)=>w+"-"+i;
+function stats(){let tot=0,c=0;W.forEach((w,wi)=>w.d.forEach((_,i)=>{tot++;if(done[id(wi,i)])c++}));return[c,tot]}
+function render(){
+ const[c,tot]=stats();
+ document.getElementById("bar").style.width=(c/tot*100)+"%";
+ document.getElementById("cnt").textContent=c+" / "+tot+" days done";
+ document.getElementById("pct").textContent=Math.round(c/tot*100)+"%";
+ document.getElementById("tabs").innerHTML=W.map((w,wi)=>{
+  const k=w.d.filter((_,i)=>done[id(wi,i)]).length;
+  return `<button class="tab ${wi===cur?"on":""}" data-w="${wi}">${w.t}<small>${w.n} · ${k}/7</small></button>`}).join("");
+ const w=W[cur];
+ document.getElementById("panel").innerHTML=`<p class="goal">${w.g}</p><p class="res">Resources: ${w.r}</p>`+
+  w.d.map((x,i)=>{const dn=!!done[id(cur,i)];const n=cur*7+i+1;
+   return `<label class="day ${dn?"done":""}"><input type="checkbox" data-i="${i}" ${dn?"checked":""}><div><b>Day ${n}</b><span>${x[0]}</span><em>${x[1]}</em>${det(n)}</div></label>`}).join("")+
+  `<div class="mile">${w.m}</div>`;
+}
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b){cur=+b.dataset.w;render()}});
+document.getElementById("panel").addEventListener("change",e=>{const i=e.target.dataset.i;if(i!==undefined){done[id(cur,i)]=e.target.checked;save();render()}});
+document.getElementById("reset").onclick=()=>{done={};save();render()};
+render();
+</script>
+</body>
+</html>
